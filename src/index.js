@@ -11,8 +11,12 @@ app.use(express.static('public'));
 
 
 const saveRouter = require('./router/csv')
+const crudRouter = require('./router/crud')
+
 
 app.use(saveRouter) 
+app.use(crudRouter)
+
 
 
 const port = process.env.PORT || 2000;
