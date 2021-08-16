@@ -1,10 +1,18 @@
 require("dotenv").config({ path: "./.env" });
 const express = require("express");
-const path = require("path");
 require("./connect/mongoose");
+var bodyParser = require("body-parser");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+
+
+const saveRouter = require('./router/csv')
+
+app.use(saveRouter) 
 
 
 const port = process.env.PORT || 2000;
