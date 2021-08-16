@@ -2,11 +2,10 @@ const mongoose = require("mongoose");
 
 const csvSchema = new mongoose.Schema(
   {
-    
-    Data:{
-        type: Array
-    }
-   
+    Data: {
+      type: Array,
+      required: true,
+    },
   },
   { collection: "csv", timestamp: true }
 );

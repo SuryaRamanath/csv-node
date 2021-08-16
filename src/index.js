@@ -6,18 +6,13 @@ var bodyParser = require("body-parser");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static("public"));
 
+const saveRouter = require("./router/csv");
+const crudRouter = require("./router/crud");
 
-
-const saveRouter = require('./router/csv')
-const crudRouter = require('./router/crud')
-
-
-app.use(saveRouter) 
-app.use(crudRouter)
-
-
+app.use(saveRouter);
+app.use(crudRouter);
 
 const port = process.env.PORT || 2000;
 

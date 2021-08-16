@@ -16,7 +16,11 @@ router.post('/create', async (req, res) => {
 
 router.post('/update', async(req, res) => {
     const {id,uniqueID, newEntry} = req.body
-    
+    const csv = await CSV.findOne({ _id:id }).lean();
+    for(let x in csv.Data){
+        console.log(csv.Data[x].Period)
+        return
+    }
 })
 
 router.post('/update', async(req, res) => {
