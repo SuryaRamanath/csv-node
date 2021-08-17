@@ -1,9 +1,9 @@
 const express = require("express");
 const router = new express.Router();
 const CSV = require("../model/csv");
-
+const auth =  require('../validators/auth')
 //==================create a new entry to the csv======================
-router.post("/create", async (req, res) => {
+router.post("/create", auth,async (req, res) => {
   const { id, entry } = req.body;
   try {
     await CSV.findOneAndUpdate({ _id: id }, { $push: { Data: entry } });
@@ -13,7 +13,7 @@ router.post("/create", async (req, res) => {
   }
 });
 //=======================get the cs content============================
-router.get("/read", async (req, res) => {
+router.get("/read", auth,async (req, res) => {
   const { id } = req.body;
   try {
     const csv = await CSV.findOne({ _id: id });
@@ -23,7 +23,7 @@ router.get("/read", async (req, res) => {
   }
 });
 //============update the content of csv================================
-router.post("/update", async (req, res) => {
+router.post("/update", auth,async (req, res) => {
   const { id, row, newEntry } = req.body;
 
   try {
@@ -45,7 +45,7 @@ router.post("/update", async (req, res) => {
   }
 });
 //====================delete the whole csv from database================
-router.post("/delete-csv", async (req, res) => {
+router.post("/delete-csv",auth, async (req, res) => {
   const { id } = req.body;
   try {
     await CSV.deleteOne({ _id: id });
@@ -56,7 +56,7 @@ router.post("/delete-csv", async (req, res) => {
 });
 
 //nullify a particular row in the csv=====================================
-router.post("/delete-content", async (req, res) => {
+router.post("/delete-content",auth, async (req, res) => {
   const { id, row } = req.body;
   try {
     const csv = await CSV.findOne({ _id: id }).lean();

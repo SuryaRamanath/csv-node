@@ -4,6 +4,7 @@ const csv = require("csv-parser");
 const fs = require("fs");
 const CSV = require("../model/csv");
 const multer = require("multer");
+const auth =  require('../validators/auth')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //=================save csv data to database=============================
-router.post("/save", upload.single("csvfile"), async (req, res) => {
+router.post("/save", upload.single("csvfile"),auth, async (req, res) => {
   const result = [];
   try {
     fs.createReadStream(process.env.root + "/uploads/" + req.file.filename)
