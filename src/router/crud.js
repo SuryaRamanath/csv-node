@@ -26,11 +26,16 @@ router.get('/read', async(req, res) => {
 
 
 router.post('/update', async(req, res) => {
-    const {id,uniqueID, newEntry} = req.body
-    const csv = await CSV.findOne({ _id:id }).lean();
-    for(let x in csv.Data){
-        console.log(csv.Data[x].Period)
-        return
+    const {id,row, newEntry} = req.body
+    
+    try{
+        const csv = await CSV.findOne({ _id:id }).lean();
+        csv.Data[row] = newEntry
+    const newcsv = await CSV.findOneAndUpdate({_id:id},{Data:csv.Data},{new:true})
+
+        return res.json({ status: "ok", msg:"CSV successfully updated" ,new_csv:newcsv});
+    }catch(e){
+        return res.json({ status: "error", error: e }); 
     }
 })
 
@@ -46,7 +51,19 @@ router.post('/delete-csv', async(req, res) => {
     
 })
 router.post('/delete-content', async(req, res) => {
-    const {id,uniqueID } = req.body
+    const {id,row } = req.body
+    try{
+        const csv = await CSV.findOne({ _id:id }).lean();
+        csv.Data[row] = undefined
+        
+        const newcsv = await CSV.findOneAndUpdate({_id:id},{Data:csv.Data},{new:true})
+
+
+        return res.json({ status: "ok", msg:"CSV successfully updated" ,new_csv:newcsv});
+
+    }catch(e){
+        return res.json({ status: "error", error: e }); 
+    }
     
 })
 
