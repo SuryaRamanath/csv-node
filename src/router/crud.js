@@ -6,13 +6,13 @@ const auth =  require('../validators/auth')
 router.post("/create", auth,async (req, res) => {
   const { id, entry } = req.body;
   try {
-    await CSV.findOneAndUpdate({ _id: id }, { $push: { Data: entry } });
+     await CSV.findOneAndUpdate({ _id: id }, { $push: { Data: entry } });
     return res.json({ status: "ok", msg: "entry saved successfully.." });
   } catch (e) {
     return res.json({ status: "error", error: e });
   }
 });
-//=======================get the cs content============================
+//=======================get the csv content============================
 router.get("/read", auth,async (req, res) => {
   const { id } = req.body;
   try {
@@ -55,8 +55,8 @@ router.post("/delete-csv",auth, async (req, res) => {
   }
 });
 
-//nullify a particular row in the csv=====================================
-router.post("/delete-content",auth, async (req, res) => {
+//===================nullify a particular row in the csv=================
+router.post("/delete-row",auth, async (req, res) => {
   const { id, row } = req.body;
   try {
     const csv = await CSV.findOne({ _id: id }).lean();

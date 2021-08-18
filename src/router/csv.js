@@ -26,9 +26,8 @@ router.post("/save", upload.single("csvfile"),auth, async (req, res) => {
       .on("data", (data) => result.push(data))
       .on("end", async () => {
         try {
-          await CSV.create({ Data: result });
-          console.log("pass");
-          return res.json({ status: "ok", msg: "file saved successfully.." });
+          const csv = await CSV.create({ Data: result });
+          return res.json({ status: "ok", msg: "file saved successfully.." , id:csv._id});
         } catch (e) {
           return res.json({ status: "error", error: e });
         }
