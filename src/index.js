@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "./.env" });
 const express = require("express");
+const path = require('path');
 require("./connect/mongoose");
 var bodyParser = require("body-parser");
 
@@ -13,6 +14,11 @@ const crudRouter = require("./router/crud");
 
 app.use(saveRouter);
 app.use(crudRouter);
+
+app.get('/',function(req,res){
+  res.sendFile(path.join(__dirname+'/Templates/index.html'));
+
+});
 
 const port = process.env.PORT || 2000;
 
